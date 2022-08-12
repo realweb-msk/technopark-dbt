@@ -1,0 +1,54 @@
+version: 2
+
+sources:
+  
+  - name: AppsFlyer
+    database: tehnoparkt-bq
+    tables:
+      - name: android_inapp_events_*
+        description: таблица
+
+      - name: ios_inapp_events_*
+        description: таблица
+
+      - name: android_retargeting_inapp_events_*
+        description: таблица
+
+      - name: ios_retargeting_inapp_events_*
+        description: таблица
+
+      - name: android_installs_*
+        description: таблица
+
+      - name: ios_installs_*
+        description: таблица
+
+      - name: android_retargeting_conversions_*
+        description: таблица
+
+      - name: ios_retargeting_conversions_*
+        description: таблица
+
+  - name: MetaCustom
+    database: tehnoparkt-bq
+    tables:
+      - name: yandex_direct_ad_keyword_stat_cpi_technopark_msk
+        description: таблица
+
+  - name: Manual
+    database: tehnoparkt-bq
+    tables:
+      - name: vk_ads_beta_sheets
+        description: таблица
+
+  - name: Mediaplan
+    database: tehnoparkt-bq
+    tables:
+      - name: tehnopark_jule_2022_mp
+        description: таблица
+
+  - name: Mediaplan
+    database: tehnoparkt-bq
+    tables:
+      - name: tehnopark_avg_2022_mp
+        description: таблица

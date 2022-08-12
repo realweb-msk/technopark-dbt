@@ -1,0 +1,21 @@
+version: 2
+
+models:
+  - name: stg_appsflyer_inapp_events
+    description: " "
+
+  - name: stg_appsflyer_installs
+    description: " "
+
+  - name: int_yandex_cab_meta
+    description: " "
+
+  - name: stg_af_data
+    description: " "
+
+  - name: stg_vk_beta
+    description: " "
+
+  - name: stg_budget_and_plan
+    description: " "
+
