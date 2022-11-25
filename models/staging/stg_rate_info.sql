@@ -12,10 +12,10 @@
 SELECT
     start_date,
     end_date,
-    platform,
     placement,
-    adv_type as plan_type,
-    plan_cost as plan_budget,
-    conversions_plan as plan_order
+    platform,
+    rate_for_us,
+    type,
+    adv_type
 FROM `tehnoparkt-bq.Manual.plan_rate`
 WHERE start_date IS NOT NULL
