@@ -8,21 +8,22 @@ technopark:
       project: tehnoparkt-bq # название проекта в BigQuery
       dataset: dbt_lazuta # название вашего личного датасета (если его нет, он будет создан)
       threads: 4
+      keyfile: /secrets/technopark-dbt-runner
       timeout_seconds: 300
       priority: interactive
       
       # Доступы из json keyfile сервисного аккаунта. Персональную информацию тут не указываем. Переменные среды будут указаны далее в Cloud Run.
-      keyfile_json:
-        type: "service_account"
-        project_id: "tehnoparkt-bq"
-        private_key_id: "{{ env_var('_PRIVATE_KEY_ID') }}"
-        private_key: "{{ env_var('_PRIVATE_KEY') }}"
-        client_email: "{{ env_var('_CLIENT_EMAIL') }}"
-        client_id: "{{ env_var('_CLIENT_ID') }}"
-        auth_uri: "https://accounts.google.com/o/oauth2/auth"
-        token_uri: "https://oauth2.googleapis.com/token"
-        auth_provider_x509_cert_url: "https://www.googleapis.com/oauth2/v1/certs"
-        client_x509_cert_url: "{{ env_var('_CLIENT_X509_CERT_URL') }}"
+      #keyfile_json:
+        #type: "service_account"
+        #project_id: "tehnoparkt-bq"
+        #private_key_id: "{{ env_var('_PRIVATE_KEY_ID') }}"
+        #private_key: "{{ env_var('_PRIVATE_KEY') }}"
+        #client_email: "{{ env_var('_CLIENT_EMAIL') }}"
+        #client_id: "{{ env_var('_CLIENT_ID') }}"
+        #auth_uri: "https://accounts.google.com/o/oauth2/auth"
+        #token_uri: "https://oauth2.googleapis.com/token"
+        #auth_provider_x509_cert_url: "https://www.googleapis.com/oauth2/v1/certs"
+        #client_x509_cert_url: "{{ env_var('_CLIENT_X509_CERT_URL') }}"
     
     prod:
       type: bigquery
@@ -30,18 +31,19 @@ technopark:
       project: tehnoparkt-bq # название проекта в BigQuery
       dataset: dbt_production # название датасета для продакшн среды
       threads: 4
+      keyfile: /secrets/technopark-dbt-runner
       timeout_seconds: 300
       priority: interactive
 
       # Доступы из json keyfile сервисного аккаунта. Персональную информацию тут не указываем. Переменные среды будут указаны далее в Cloud Run.
-      keyfile_json:
-        type: "service_account"
-        project_id: "tehnoparkt-bq"
-        private_key_id: "{{ env_var('_PRIVATE_KEY_ID') }}"
-        private_key: "{{ env_var('_PRIVATE_KEY') }}"
-        client_email: "{{ env_var('_CLIENT_EMAIL') }}"
-        client_id: "{{ env_var('_CLIENT_ID') }}"
-        auth_uri: "https://accounts.google.com/o/oauth2/auth"
-        token_uri: "https://oauth2.googleapis.com/token"
-        auth_provider_x509_cert_url: "https://www.googleapis.com/oauth2/v1/certs"
-        client_x509_cert_url: "{{ env_var('_CLIENT_X509_CERT_URL') }}"
+      #keyfile_json:
+        #type: "service_account"
+        #project_id: "tehnoparkt-bq"
+        #private_key_id: "{{ env_var('_PRIVATE_KEY_ID') }}"
+        #private_key: "{{ env_var('_PRIVATE_KEY') }}"
+        #client_email: "{{ env_var('_CLIENT_EMAIL') }}"
+        #client_id: "{{ env_var('_CLIENT_ID') }}"
+        #auth_uri: "https://accounts.google.com/o/oauth2/auth"
+        #token_uri: "https://oauth2.googleapis.com/token"
+        #auth_provider_x509_cert_url: "https://www.googleapis.com/oauth2/v1/certs"
+        #client_x509_cert_url: "{{ env_var('_CLIENT_X509_CERT_URL') }}"
