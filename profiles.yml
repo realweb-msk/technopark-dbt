@@ -1,4 +1,4 @@
-i_am_a_profile_name: technopark
+technopark:
   target: dev
   outputs:
     
