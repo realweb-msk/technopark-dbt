@@ -40,6 +40,9 @@ sources:
     tables:
       - name: vk_ads_beta_sheets
         description: таблица
+      
+      - name: plan_rate
+        description: Ручные данные https://docs.google.com/spreadsheets/d/1DSF-IQd1VmFIwVxom_b3Ryi4vB-IBobmXBrpobiDhe4/edit?usp=sharing
 
   - name: Mediaplan
     database: tehnoparkt-bq

@@ -1,9 +1,10 @@
-WITH source AS (
+WITH sources AS (
     SELECT
         start_date,
         end_date,
         platform,
         placement,
+        source,
         plan_type,
         plan_budget,
         plan_order
@@ -15,10 +16,11 @@ array_table AS (
         GENERATE_DATE_ARRAY(start_date,end_date) AS date, 
         platform,
         placement,
+        source,
         plan_type,
         plan_budget,
         plan_order 
-    FROM source
+    FROM sources
 ),
 
 plans AS (
@@ -26,6 +28,7 @@ plans AS (
         date,
         platform,
         placement,
+        source,
         plan_type,
         plan_budget,
         plan_order
@@ -36,6 +39,7 @@ SELECT
     date,
     platform,
     placement,
+    source,
     plan_type,
     plan_budget,
     plan_order

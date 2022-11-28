@@ -4,6 +4,7 @@ WITH af_conversions AS (
         is_retargeting,
         af_cid,
         mediasource,
+        source,
         platform,
         event_name,
         uniq_event_count,
@@ -32,6 +33,7 @@ yandex_rate AS (
 yandex_convs_ua AS (
     SELECT 
         date,
+        source,
         campaign_name,
         platform,
         'UA' as campaign_type,
@@ -43,14 +45,15 @@ yandex_convs_ua AS (
         sum(IF(event_name = "af_purchase", event_count, 0)) AS purchase,
         sum(IF(event_name = "af_purchase", uniq_event_count, 0)) AS uniq_purchase,
     FROM af_conversions
-    WHERE mediasource = 'yandexdirect_int'
+    WHERE source = 'Яндекс.Директ'
     AND is_retargeting = FALSE
-    GROUP BY 1,2,3,4
+    GROUP BY 1,2,3,4,5
 ),
 
 yandex_convs_rtg AS (
     SELECT 
         date,
+        source,
         campaign_name,
         platform,
         'RTG' as campaign_type,
@@ -62,9 +65,9 @@ yandex_convs_rtg AS (
         sum(IF(event_name = "af_purchase", event_count, 0)) AS purchase,
         sum(IF(event_name = "af_purchase", uniq_event_count, 0)) AS uniq_purchase,
     FROM af_conversions
-    WHERE mediasource = 'yandexdirect_int'
+    WHERE source = 'Яндекс.Директ'
     AND is_retargeting = TRUE
-    GROUP BY 1,2,3,4
+    GROUP BY 1,2,3,4,5
 ),
 
 yandex_convs AS (
@@ -87,7 +90,7 @@ yandex AS (
         COALESCE(first_purchase,0) AS first_purchase,
         COALESCE(uniq_first_purchase,0) AS uniq_first_purchase,
         COALESCE(installs * rate_for_us,0)  AS spend,
-        'Yandex Direct' AS source,
+        yc.source,
         adv_type,
         rate_for_us
     FROM yandex_convs yc
@@ -124,6 +127,7 @@ yandex AS (
 vk_convs_ua AS (
     SELECT 
         date,
+        source,
         campaign_name,
         platform,
         'UA' as campaign_type,
@@ -135,14 +139,15 @@ vk_convs_ua AS (
         sum(IF(event_name = "af_purchase", event_count, 0)) AS purchase,
         sum(IF(event_name = "af_purchase", uniq_event_count, 0)) AS uniq_purchase,
     FROM af_conversions
-    WHERE mediasource = 'vk_int'
+    WHERE source = 'VK Реклама'
     AND is_retargeting = FALSE
-    GROUP BY 1,2,3,4
+    GROUP BY 1,2,3,4,5
 ),
 
 vk_convs_rtg AS (
     SELECT 
         date,
+        source,
         campaign_name,
         platform,
         'RTG' as campaign_type,
@@ -154,9 +159,9 @@ vk_convs_rtg AS (
         sum(IF(event_name = "af_purchase", event_count, 0)) AS purchase,
         sum(IF(event_name = "af_purchase", uniq_event_count, 0)) AS uniq_purchase,
     FROM af_conversions
-    WHERE mediasource = 'vk_int'
+    WHERE source = 'VK Реклама'
     AND is_retargeting = TRUE
-    GROUP BY 1,2,3,4
+    GROUP BY 1,2,3,4,5
 ),
 
 vk_convs AS (
@@ -179,7 +184,7 @@ vk AS (
         COALESCE(first_purchase,0) AS first_purchase,
         COALESCE(uniq_first_purchase,0) AS uniq_first_purchase,
         COALESCE(installs * rate_for_us,0)  AS spend,
-        'VK Реклама' AS source,
+        vk.source,
         adv_type,
         rate_for_us
     FROM vk_convs vk
@@ -216,6 +221,7 @@ vk AS (
 mt_convs_ua AS (
     SELECT 
         date,
+        source,
         campaign_name,
         platform,
         'UA' as campaign_type,
@@ -227,14 +233,15 @@ mt_convs_ua AS (
         sum(IF(event_name = "af_purchase", event_count, 0)) AS purchase,
         sum(IF(event_name = "af_purchase", uniq_event_count, 0)) AS uniq_purchase,
     FROM af_conversions
-    WHERE mediasource = 'mail.ru_int'
+    WHERE source = 'MyTarget'
     AND is_retargeting = FALSE
-    GROUP BY 1,2,3,4
+    GROUP BY 1,2,3,4,5
 ),
 
 mt_convs_rtg AS (
     SELECT 
         date,
+        source,
         campaign_name,
         platform,
         'RTG' as campaign_type,
@@ -246,9 +253,9 @@ mt_convs_rtg AS (
         sum(IF(event_name = "af_purchase", event_count, 0)) AS purchase,
         sum(IF(event_name = "af_purchase", uniq_event_count, 0)) AS uniq_purchase,
     FROM af_conversions
-    WHERE mediasource = 'mail.ru_int'
+    WHERE source = 'MyTarget'
     AND is_retargeting = TRUE
-    GROUP BY 1,2,3,4
+    GROUP BY 1,2,3,4,5
 ),
 
 mt_convs AS (
@@ -271,7 +278,7 @@ mt AS (
         COALESCE(first_purchase,0) AS first_purchase,
         COALESCE(uniq_first_purchase,0) AS uniq_first_purchase,
         COALESCE(purchase * rate_for_us,0) AS spend,
-        'MyTarget' AS source,
+        mt.source,
         adv_type,
         rate_for_us
     FROM mt_convs mt
@@ -302,14 +309,16 @@ inapp_rate AS (
         type as campaign_type,
         UPPER(adv_type) as adv_type
     FROM {{ ref('stg_rate_info') }}
-    WHERE placement = 'Think Mobile'
+    WHERE source = 'In-app'
 ),
 
 inapp_convs_ua AS (
     SELECT 
         date,
+        source,
         campaign_name,
         platform,
+        {{ partner('campaign_name') }} AS partner,
         'UA' as campaign_type,
         sum(IF(event_name = 'install', event_count,0)) AS installs,
         sum(IF(event_name = 'first_purchase', event_revenue,0)) AS first_purchase_revenue,
@@ -319,16 +328,18 @@ inapp_convs_ua AS (
         sum(IF(event_name = "af_purchase", event_count, 0)) AS purchase,
         sum(IF(event_name = "af_purchase", uniq_event_count, 0)) AS uniq_purchase,
     FROM af_conversions
-    WHERE mediasource = 'mobaigle_int' --тут исправить на корректный
+    WHERE source = 'In-app'
     AND is_retargeting = FALSE
-    GROUP BY 1,2,3,4
+    GROUP BY 1,2,3,4,5
 ),
 
 inapp_convs_rtg AS (
     SELECT 
         date,
+        source,
         campaign_name,
         platform,
+        {{ partner('campaign_name') }} AS partner,
         'RTG' as campaign_type,
         sum(IF(event_name = 'install', event_count,0)) AS installs,
         sum(IF(event_name = 'first_purchase', event_revenue,0)) AS first_purchase_revenue,
@@ -338,9 +349,9 @@ inapp_convs_rtg AS (
         sum(IF(event_name = "af_purchase", event_count, 0)) AS purchase,
         sum(IF(event_name = "af_purchase", uniq_event_count, 0)) AS uniq_purchase,
     FROM af_conversions
-    WHERE mediasource = 'mobaigle_int' --тут исправить на корректный
+    WHERE source = 'In-app'
     AND is_retargeting = TRUE
-    GROUP BY 1,2,3,4
+    GROUP BY 1,2,3,4,5
 ),
 
 inapp_convs AS (
@@ -363,13 +374,14 @@ inapp AS (
         COALESCE(first_purchase,0) AS first_purchase,
         COALESCE(uniq_first_purchase,0) AS uniq_first_purchase,
         COALESCE(installs * rate_for_us,0) AS spend,
-        placement AS source,
+        i.source,
         adv_type,
         rate_for_us
     FROM inapp_convs i
     LEFT JOIN inapp_rate ir
     ON i.date BETWEEN ir.start_date AND ir.end_date
-    AND i.platform = ir.platform 
+    AND i.platform = ir.platform
+    AND i.partner = ir.placement 
     WHERE 
         COALESCE(installs,0) + 
         COALESCE(revenue,0) + 

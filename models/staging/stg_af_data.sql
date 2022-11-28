@@ -177,7 +177,20 @@ af_data_install AS (
   GROUP BY 1,2,3,4,5,6,7,8,9
 )
 
-SELECT *
+SELECT 
+  date,
+  is_retargeting,
+  campaign_name,
+  af_cid,
+  af_adset,
+  mediasource,
+  {{ source_edit('campaign_name') }} as source,
+  platform,
+  event_value,
+  event_name,
+  uniq_event_count,
+  event_revenue,
+  event_count
 FROM (
   SELECT * FROM af_data_event
   UNION ALL 
