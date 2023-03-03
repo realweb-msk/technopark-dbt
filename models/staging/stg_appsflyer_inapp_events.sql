@@ -1,6 +1,6 @@
 WITH a_ie AS (
     SELECT
-        PARSE_DATE('%Y_%m_%d', _TABLE_SUFFIX) AS `date`,
+        DATE(event_time) AS `date`,
         attributed_touch_type, 
         attributed_touch_time, 
         install_time, 
@@ -83,12 +83,12 @@ WITH a_ie AS (
         http_referrer, 
         original_url, 
         device_model
-    FROM  {{ source('AppsFlyer', 'android_inapp_events_*') }}
+    FROM  {{ source('AppsFlyer', 'android_inapp_events_airflow') }}
 ),
 
 i_ie AS (
     SELECT
-        PARSE_DATE('%Y_%m_%d', _TABLE_SUFFIX) AS `date`,
+        DATE(event_time) AS `date`,
         attributed_touch_type, 
         attributed_touch_time, 
         install_time, 
@@ -171,13 +171,13 @@ i_ie AS (
         http_referrer, 
         original_url, 
         device_model
-    FROM  {{ source('AppsFlyer', 'ios_inapp_events_*') }}
+    FROM  {{ source('AppsFlyer', 'ios_inapp_events_airflow') }}
 
 ),
 
 a_rie AS (
     SELECT
-        PARSE_DATE('%Y_%m_%d', _TABLE_SUFFIX) AS `date`,
+        DATE(event_time) AS `date`,
         attributed_touch_type, 
         attributed_touch_time, 
         install_time, 
@@ -260,13 +260,13 @@ a_rie AS (
         http_referrer, 
         original_url, 
         device_model
-    FROM  {{ source('AppsFlyer', 'android_retargeting_inapp_events_*') }}
+    FROM  {{ source('AppsFlyer', 'android_retargeting_inapp_events_airflow') }}
     
 ),
 
 i_rie AS (
     SELECT
-        PARSE_DATE('%Y_%m_%d', _TABLE_SUFFIX) AS `date`,
+        DATE(event_time) AS `date`,
         attributed_touch_type, 
         attributed_touch_time, 
         install_time, 
@@ -349,7 +349,7 @@ i_rie AS (
         http_referrer, 
         original_url, 
         device_model
-    FROM  {{ source('AppsFlyer', 'ios_retargeting_inapp_events_*') }}
+    FROM  {{ source('AppsFlyer', 'ios_retargeting_inapp_events_airflow') }}
     
 ),
 

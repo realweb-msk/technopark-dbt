@@ -5,28 +5,28 @@ sources:
   - name: AppsFlyer
     database: tehnoparkt-bq
     tables:
-      - name: android_inapp_events_*
+      - name: android_inapp_events_airflow
         description: таблица
 
-      - name: ios_inapp_events_*
+      - name: ios_inapp_events_airflow
         description: таблица
 
-      - name: android_retargeting_inapp_events_*
+      - name: android_retargeting_inapp_events_airflow
         description: таблица
 
-      - name: ios_retargeting_inapp_events_*
+      - name: ios_retargeting_inapp_events_airflow
         description: таблица
 
-      - name: android_installs_*
+      - name: android_installs_airflow
         description: таблица
 
-      - name: ios_installs_*
+      - name: ios_installs_airflow
         description: таблица
 
-      - name: android_retargeting_conversions_*
+      - name: android_retargeting_conversions_airflow
         description: таблица
 
-      - name: ios_retargeting_conversions_*
+      - name: ios_retargeting_conversions_airflow
         description: таблица
 
   - name: MetaCustom
